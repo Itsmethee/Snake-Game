@@ -15,6 +15,10 @@
 
   let snake, direction, nextDirection, food, score, highScore, running, loopId;
 
+  // Load snake head image
+  const snakeHeadImg = new Image();
+  snakeHeadImg.src = 'images/snake-head.png';
+
   // Load high score from localStorage
   highScore = parseInt(localStorage.getItem("snakeHighScore")) || 0;
   highScoreEl.textContent = highScore;
@@ -79,11 +83,23 @@
 
     // Draw snake
     snake.forEach(function (seg, i) {
-      ctx.fillStyle = i === 0 ? "#4ecca3" : "#38b88c";
-      ctx.fillRect(seg.x * GRID + 1, seg.y * GRID + 1, GRID - 2, GRID - 2);
-      ctx.strokeStyle = "#1a1a2e";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(seg.x * GRID + 1, seg.y * GRID + 1, GRID - 2, GRID - 2);
+      if (i === 0 && snakeHeadImg.complete) {
+        // Draw the head as an image
+        ctx.drawImage(
+          snakeHeadImg,
+          seg.x * GRID,
+          seg.y * GRID,
+          GRID,
+          GRID
+        );
+      } else {
+        // Draw body segments as rectangles
+        ctx.fillStyle = i === 0 ? "#4ecca3" : "#38b88c";
+        ctx.fillRect(seg.x * GRID + 1, seg.y * GRID + 1, GRID - 2, GRID - 2);
+        ctx.strokeStyle = "#1a1a2e";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(seg.x * GRID + 1, seg.y * GRID + 1, GRID - 2, GRID - 2);
+      }
     });
   }
 
