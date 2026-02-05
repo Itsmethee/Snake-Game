@@ -21,6 +21,12 @@
 
   // Load snake head image
   const snakeHeadImg = new Image();
+  snakeHeadImg.onload = function() {
+    // Redraw when image loads to show it immediately
+    if (snake) {
+      draw();
+    }
+  };
   snakeHeadImg.src = 'images/Ricky.png';
 
   // Load high score from localStorage
@@ -71,10 +77,12 @@
   // Snake head image selector
   const snakeHeadSelect = document.getElementById('snake-head-select');
   snakeHeadSelect.addEventListener('change', function() {
+    snakeHeadImg.onload = function() {
+      if (snake) {
+        draw();
+      }
+    };
     snakeHeadImg.src = snakeHeadSelect.value;
-    if (snake) {
-      draw();
-    }
   });
 
   // Function to resize canvas to fit viewport
