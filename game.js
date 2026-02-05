@@ -88,7 +88,7 @@
   // Function to resize canvas to fit viewport
   function resizeCanvas() {
     // Calculate available space (leaving room for UI elements)
-    const margin = 200; // Space for title, scores, buttons, controls
+    const margin = 280; // Space for title, scores, buttons, controls, version
     const availableWidth = window.innerWidth - 40;
     const availableHeight = window.innerHeight - margin;
 
@@ -356,15 +356,21 @@
   let touchEndY = 0;
 
   canvas.addEventListener('touchstart', function(e) {
+    e.preventDefault(); // Prevent scrolling
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
-  }, false);
+  }, { passive: false });
 
   canvas.addEventListener('touchend', function(e) {
+    e.preventDefault(); // Prevent scrolling
     touchEndX = e.changedTouches[0].screenX;
     touchEndY = e.changedTouches[0].screenY;
     handleSwipe();
-  }, false);
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', function(e) {
+    e.preventDefault(); // Prevent scrolling during touch movement
+  }, { passive: false });
 
   function handleSwipe() {
     var deltaX = touchEndX - touchStartX;

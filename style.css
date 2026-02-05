@@ -12,6 +12,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
+}
+
+/* Prevent pull-to-refresh on mobile */
+body {
+  overscroll-behavior-y: contain;
 }
 
 .container {
@@ -100,6 +106,7 @@ canvas {
   border: 2px solid #4ecca3;
   border-radius: 4px;
   background: #16213e;
+  touch-action: none;
 }
 
 #game-message {
