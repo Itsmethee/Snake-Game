@@ -25,6 +25,67 @@ h1 {
   color: #4ecca3;
 }
 
+.game-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 15px;
+  background: #2a2a4a;
+  border-radius: 8px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.control-group label {
+  font-weight: 600;
+  color: #4ecca3;
+}
+
+#speed-control {
+  width: 120px;
+  cursor: pointer;
+}
+
+#snake-head-select {
+  padding: 4px 8px;
+  background: #1a1a2e;
+  color: #4ecca3;
+  border: 1px solid #4ecca3;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+#snake-head-select:focus {
+  outline: 2px solid #4ecca3;
+}
+
+input[type="color"] {
+  width: 40px;
+  height: 30px;
+  border: 1px solid #4ecca3;
+  border-radius: 4px;
+  cursor: pointer;
+  background: transparent;
+}
+
+#speed-value {
+  min-width: 50px;
+  color: #4ecca3;
+  font-weight: 600;
+}
+
 .score-board {
   display: flex;
   justify-content: center;

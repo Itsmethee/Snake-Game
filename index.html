@@ -13,6 +13,38 @@
       <span>Score: <span id="score">0</span></span>
       <span>High Score: <span id="high-score">0</span></span>
     </div>
+
+    <!-- Game Controls Panel -->
+    <div class="game-controls">
+      <div class="control-group">
+        <label for="speed-control">Speed:</label>
+        <input type="range" id="speed-control" min="50" max="300" value="120" step="10">
+        <span id="speed-value">120ms</span>
+      </div>
+
+      <div class="control-group">
+        <label for="snake-head-select">Snake Head:</label>
+        <select id="snake-head-select">
+          <option value="images/snake-head.png">snake-head.png</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="bg-color">Background:</label>
+        <input type="color" id="bg-color" value="#16213e">
+      </div>
+
+      <div class="control-group">
+        <label for="body-color">Snake Body:</label>
+        <input type="color" id="body-color" value="#38b88c">
+      </div>
+
+      <div class="control-group">
+        <label for="food-color">Food:</label>
+        <input type="color" id="food-color" value="#e74c3c">
+      </div>
+    </div>
+
     <canvas id="game-canvas"></canvas>
     <div id="game-message">Press any arrow key or tap Start to play</div>
     <button id="start-btn">Start Game</button>

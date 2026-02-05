@@ -10,9 +10,14 @@
 
   let GRID = 75;
   let COLS, ROWS;
-  const TICK_MS = 120;
+  let TICK_MS = 120;
 
   let snake, direction, nextDirection, food, score, highScore, running, loopId;
+
+  // Game customization settings
+  let bgColor = "#16213e";
+  let bodyColor = "#38b88c";
+  let foodColor = "#e74c3c";
 
   // Load snake head image
   const snakeHeadImg = new Image();
@@ -21,6 +26,78 @@
   // Load high score from localStorage
   highScore = parseInt(localStorage.getItem("snakeHighScore")) || 0;
   highScoreEl.textContent = highScore;
+
+  // Populate snake head dropdown from images.json
+  function populateImageDropdown() {
+    const select = document.getElementById('snake-head-select');
+
+    // Fetch available images from JSON file
+    fetch('images/images.json')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        select.innerHTML = '';
+        data.images.forEach(function(imgPath) {
+          const option = document.createElement('option');
+          option.value = imgPath;
+          option.textContent = imgPath.split('/').pop();
+          select.appendChild(option);
+        });
+      })
+      .catch(function(error) {
+        console.error('Error loading images:', error);
+        // Fallback to default image
+        select.innerHTML = '<option value="images/snake-head.png">snake-head.png</option>';
+      });
+  }
+
+  // Initialize controls
+  populateImageDropdown();
+
+  // Speed control
+  const speedControl = document.getElementById('speed-control');
+  const speedValue = document.getElementById('speed-value');
+  speedControl.addEventListener('input', function() {
+    TICK_MS = parseInt(speedControl.value);
+    speedValue.textContent = TICK_MS + 'ms';
+    // Restart the game loop with new speed if running
+    if (running) {
+      clearInterval(loopId);
+      loopId = setInterval(tick, TICK_MS);
+    }
+  });
+
+  // Snake head image selector
+  const snakeHeadSelect = document.getElementById('snake-head-select');
+  snakeHeadSelect.addEventListener('change', function() {
+    snakeHeadImg.src = snakeHeadSelect.value;
+    if (snake) {
+      draw();
+    }
+  });
+
+  // Color controls
+  document.getElementById('bg-color').addEventListener('input', function(e) {
+    bgColor = e.target.value;
+    if (snake) {
+      draw();
+    }
+  });
+
+  document.getElementById('body-color').addEventListener('input', function(e) {
+    bodyColor = e.target.value;
+    if (snake) {
+      draw();
+    }
+  });
+
+  document.getElementById('food-color').addEventListener('input', function(e) {
+    foodColor = e.target.value;
+    if (snake) {
+      draw();
+    }
+  });
 
   // Function to resize canvas to fit viewport
   function resizeCanvas() {
@@ -100,7 +177,7 @@
 
   function draw() {
     // Background
-    ctx.fillStyle = "#16213e";
+    ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Draw grid lines (subtle)
@@ -119,7 +196,7 @@
     }
 
     // Draw food
-    ctx.fillStyle = "#e74c3c";
+    ctx.fillStyle = foodColor;
     ctx.beginPath();
     ctx.arc(
       food.x * GRID + GRID / 2,
@@ -143,9 +220,9 @@
         );
       } else {
         // Draw body segments as rectangles
-        ctx.fillStyle = i === 0 ? "#4ecca3" : "#38b88c";
+        ctx.fillStyle = bodyColor;
         ctx.fillRect(seg.x * GRID + 1, seg.y * GRID + 1, GRID - 2, GRID - 2);
-        ctx.strokeStyle = "#1a1a2e";
+        ctx.strokeStyle = bgColor;
         ctx.lineWidth = 1;
         ctx.strokeRect(seg.x * GRID + 1, seg.y * GRID + 1, GRID - 2, GRID - 2);
       }
@@ -201,7 +278,7 @@
     // Flash effect
     ctx.fillStyle = "rgba(0,0,0,0.45)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#e74c3c";
+    ctx.fillStyle = foodColor;
     ctx.font = "bold 36px sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 10);
