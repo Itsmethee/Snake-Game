@@ -8,7 +8,7 @@
   const messageEl = document.getElementById("game-message");
   const startBtn = document.getElementById("start-btn");
 
-  const GRID = 30;
+  const GRID = 75;
   const COLS = canvas.width / GRID;
   const ROWS = canvas.height / GRID;
   const TICK_MS = 120;
