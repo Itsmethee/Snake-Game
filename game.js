@@ -21,7 +21,7 @@
 
   // Load snake head image
   const snakeHeadImg = new Image();
-  snakeHeadImg.src = 'images/snake-head.png';
+  snakeHeadImg.src = 'images/Ricky.png';
 
   // Load high score from localStorage
   highScore = parseInt(localStorage.getItem("snakeHighScore")) || 0;
@@ -48,7 +48,7 @@
       .catch(function(error) {
         console.error('Error loading images:', error);
         // Fallback to default image
-        select.innerHTML = '<option value="images/snake-head.png">snake-head.png</option>';
+        select.innerHTML = '<option value="images/Ricky.png">Ricky.png</option>';
       });
   }
 
