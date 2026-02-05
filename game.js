@@ -77,28 +77,6 @@
     }
   });
 
-  // Color controls
-  document.getElementById('bg-color').addEventListener('input', function(e) {
-    bgColor = e.target.value;
-    if (snake) {
-      draw();
-    }
-  });
-
-  document.getElementById('body-color').addEventListener('input', function(e) {
-    bodyColor = e.target.value;
-    if (snake) {
-      draw();
-    }
-  });
-
-  document.getElementById('food-color').addEventListener('input', function(e) {
-    foodColor = e.target.value;
-    if (snake) {
-      draw();
-    }
-  });
-
   // Function to resize canvas to fit viewport
   function resizeCanvas() {
     // Calculate available space (leaving room for UI elements)
