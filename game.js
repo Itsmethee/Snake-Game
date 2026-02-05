@@ -88,8 +88,10 @@
   // Function to resize canvas to fit viewport
   function resizeCanvas() {
     // Calculate available space (leaving room for UI elements)
-    const margin = 280; // Space for title, scores, buttons, controls, version
-    const availableWidth = window.innerWidth - 40;
+    // Mobile needs less margin due to compact layout
+    const isMobile = window.innerWidth < 768;
+    const margin = isMobile ? 240 : 280; // Space for title, scores, buttons, controls, version
+    const availableWidth = window.innerWidth - (isMobile ? 20 : 40);
     const availableHeight = window.innerHeight - margin;
 
     // Calculate optimal grid size based on screen size
@@ -370,6 +372,24 @@
 
   canvas.addEventListener('touchmove', function(e) {
     e.preventDefault(); // Prevent scrolling during touch movement
+  }, { passive: false });
+
+  // Prevent scrolling on the entire document
+  document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener('touchstart', function(e) {
+    // Allow touch on interactive elements
+    if (e.target.tagName === 'BUTTON' ||
+        e.target.tagName === 'INPUT' ||
+        e.target.tagName === 'SELECT' ||
+        e.target.closest('button') ||
+        e.target.closest('input') ||
+        e.target.closest('select')) {
+      return;
+    }
+    e.preventDefault();
   }, { passive: false });
 
   function handleSwipe() {
