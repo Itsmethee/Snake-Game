@@ -349,6 +349,66 @@
     });
   });
 
+  // Swipe gesture controls for mobile
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+
+  canvas.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, false);
+
+  canvas.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+  }, false);
+
+  function handleSwipe() {
+    var deltaX = touchEndX - touchStartX;
+    var deltaY = touchEndY - touchStartY;
+    var minSwipeDistance = 30; // Minimum distance for a swipe to register
+
+    // Determine if swipe is more horizontal or vertical
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal swipe
+      if (Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX > 0) {
+          // Swipe right
+          if (!running) {
+            restartGame();
+          }
+          setDirection('right');
+        } else {
+          // Swipe left
+          if (!running) {
+            restartGame();
+          }
+          setDirection('left');
+        }
+      }
+    } else {
+      // Vertical swipe
+      if (Math.abs(deltaY) > minSwipeDistance) {
+        if (deltaY > 0) {
+          // Swipe down
+          if (!running) {
+            restartGame();
+          }
+          setDirection('down');
+        } else {
+          // Swipe up
+          if (!running) {
+            restartGame();
+          }
+          setDirection('up');
+        }
+      }
+    }
+  }
+
   // Initial draw
   init();
   draw();
