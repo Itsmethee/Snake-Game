@@ -8,9 +8,8 @@
   const messageEl = document.getElementById("game-message");
   const startBtn = document.getElementById("start-btn");
 
-  const GRID = 75;
-  const COLS = canvas.width / GRID;
-  const ROWS = canvas.height / GRID;
+  let GRID = 75;
+  let COLS, ROWS;
   const TICK_MS = 120;
 
   let snake, direction, nextDirection, food, score, highScore, running, loopId;
@@ -22,6 +21,56 @@
   // Load high score from localStorage
   highScore = parseInt(localStorage.getItem("snakeHighScore")) || 0;
   highScoreEl.textContent = highScore;
+
+  // Function to resize canvas to fit viewport
+  function resizeCanvas() {
+    // Calculate available space (leaving room for UI elements)
+    const margin = 200; // Space for title, scores, buttons, controls
+    const availableWidth = window.innerWidth - 40;
+    const availableHeight = window.innerHeight - margin;
+
+    // Calculate optimal grid size based on screen size
+    // Aim for 10-20 cells per dimension for playability
+    const targetCells = 12;
+    const gridFromWidth = Math.floor(availableWidth / targetCells);
+    const gridFromHeight = Math.floor(availableHeight / targetCells);
+
+    // Use the smaller grid size to fit both dimensions, min 40, max 100
+    GRID = Math.max(40, Math.min(100, Math.min(gridFromWidth, gridFromHeight)));
+
+    // Calculate columns and rows that fit in available space
+    COLS = Math.floor(availableWidth / GRID);
+    ROWS = Math.floor(availableHeight / GRID);
+
+    // Ensure minimum playable area
+    COLS = Math.max(8, COLS);
+    ROWS = Math.max(8, ROWS);
+
+    // Set canvas dimensions
+    canvas.width = COLS * GRID;
+    canvas.height = ROWS * GRID;
+
+    // Redraw if game is initialized
+    if (snake) {
+      draw();
+    }
+  }
+
+  // Resize on load and window resize
+  resizeCanvas();
+  window.addEventListener('resize', function() {
+    resizeCanvas();
+    // If game is running, we may need to adjust snake position
+    if (running && snake) {
+      // Ensure snake stays within new bounds
+      snake = snake.filter(function(seg) {
+        return seg.x >= 0 && seg.x < COLS && seg.y >= 0 && seg.y < ROWS;
+      });
+      if (snake.length === 0) {
+        gameOver();
+      }
+    }
+  });
 
   function init() {
     const midX = Math.floor(COLS / 2);
